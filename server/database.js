@@ -4,13 +4,26 @@ import path from 'path';
 import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dataDir = path.join(__dirname, 'data');
 
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
-}
+const getDbPath = () => {
+  // If running on Azure App Service, use persistent storage path under /home
+  if (process.env.WEBSITE_INSTANCE_ID && process.env.HOME) {
+    const azureDataDir = path.join(process.env.HOME, 'data');
+    if (!fs.existsSync(azureDataDir)) {
+      fs.mkdirSync(azureDataDir, { recursive: true });
+    }
+    return path.join(azureDataDir, 'database.db');
+  }
+  
+  // Otherwise fall back to local project folder
+  const dataDir = path.join(__dirname, 'data');
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+  return path.join(dataDir, 'database.db');
+};
 
-const dbPath = path.join(dataDir, 'database.db');
+const dbPath = getDbPath();
 const db = new sqlite3.Database(dbPath);
 
 // Helper function to run query that doesn't return rows (INSERT, UPDATE, DELETE)

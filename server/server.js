@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import {
   initDb,
   createGroup,
@@ -10,6 +12,9 @@ import {
   deleteMember,
   checkGroupExists
 } from './database.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -128,4 +133,13 @@ app.delete('/api/groups/:id/members/:memberId', async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Failed to delete member' });
   }
+});
+
+// Serve static assets from Vue client build
+const clientDistPath = path.join(__dirname, '../client/dist');
+app.use(express.static(clientDistPath));
+
+// Serve the index.html for any other requests (Vue Router fallback / SPA support)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientDistPath, 'index.html'));
 });
