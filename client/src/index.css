@@ -85,6 +85,14 @@ button, input, select, textarea {
   color: inherit;
 }
 
+button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: inherit;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -124,6 +132,32 @@ button, input, select, textarea {
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.recent-group-item {
+  background: hsla(var(--bg-accent), 0.35);
+  border: 1px solid hsla(var(--text-muted), 0.15);
+  transition: all var(--transition-normal);
+}
+
+.recent-group-item:hover {
+  background: hsla(var(--bg-accent), 0.55);
+  border-color: hsla(var(--text-muted), 0.35);
+}
+
+.recent-group-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  color: hsl(var(--text-muted));
+  transition: all var(--transition-fast);
+}
+
+.recent-group-remove-btn:hover {
+  background: hsla(var(--color-error), 0.15);
+  color: hsl(var(--color-error));
 }
 
 .interactive-hover:hover {

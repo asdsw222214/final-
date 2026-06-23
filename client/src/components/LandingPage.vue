@@ -84,18 +84,17 @@
           <div
             v-for="group in recentGroups"
             :key="group.id"
-            class="flex items-center justify-between p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all animate-fade-in"
+            class="recent-group-item flex items-center justify-between p-2.5 rounded-xl animate-fade-in"
           >
             <button
               @click="$emit('navigate', group.id)"
               class="flex-1 text-left text-sm font-semibold truncate hover:text-blue-400 cursor-pointer"
             >
               {{ group.name }}
-              <span class="text-xs text-gray-500 font-mono ml-2">({{ group.id }})</span>
             </button>
             <button
               @click="removeRecentGroup(group.id)"
-              class="p-1 hover:bg-white/10 rounded-lg text-gray-400 hover:text-rose-400 transition-all"
+              class="recent-group-remove-btn"
               title="清除記錄"
             >
               <X class="w-3.5 h-3.5" />
